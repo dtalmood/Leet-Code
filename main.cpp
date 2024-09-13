@@ -449,12 +449,43 @@ void prefixSumQuery()
 
 }
 
-void numWayToSplitArray()
+vector<int> twoSum(vector<int>& nums, int target)
 {
-    
+    unordered_map <int,int> dict;
+    int length = nums.size();
+    vector<int> result;
+    for(int i = 0; i < length; i++)
+    {
+        int value = target - nums[i];
+
+        if(dict.find(value) != dict.end())
+        {
+            int temp = dict[value];
+            result.push_back(temp);
+            result.push_back(i);
+            break;
+        }
+        dict[nums[i]] = i;
+    }
+    return result;
 }
+    
 
-
-
-
-
+char repeatedCharacter(string s) 
+{
+    // We want to return the first letter to appear twice
+    // Sets are perfect for checking if something exists
+    unordered_set<char> seen;
+    for(char c: s)
+    {
+        if(seen.find(c) != seen.end())
+        {
+            return c;
+        }
+        else
+        {
+            seen.insert(c);
+        }
+    }    
+    return ' ';    
+}
