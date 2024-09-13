@@ -1,6 +1,13 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <iostream>       // For std::cout
+#include <unordered_map>  // For std::unordered_map
+#include <unordered_set>  // For std::unordered_set
+#include <set>            // For std::set
+#include <map>            // For std::map
+#include <vector>         // For std::vector
+#include <string>         // For std::string
 
 // RUN CODE WITH FOLLOWING COMMAND: g++ -std=c++11 main.cpp -o main
 using namespace std;
@@ -488,4 +495,74 @@ char repeatedCharacter(string s)
         }
     }    
     return ' ';    
+}
+
+bool checkIfPangram(string sentence) 
+{
+    // https://leetcode.com/problems/check-if-the-sentence-is-pangram/
+
+    // Is all letters of the alphabet in sentence? 
+    // We are Checking for Existance so use a SET
+
+    set<char> mySet(sentence.begin(),sentence.end());
+
+    if(mySet.size()==26)
+        return true;
+        
+    return false;
+}
+
+int missingNumber(vector<int>& nums) 
+{
+    // https://leetcode.com/problems/missing-number/
+    
+    // We wat to see if there is a number missing 
+    // We are checking for the existasnce of something
+    // Sets are good for checking for existance 
+
+    
+    set<int> mySet(nums.begin(),nums.end()); // set is in ascending order 
+    
+    int i = 0;
+    for(auto x: mySet)
+    {
+        if(i != x)
+            return i;
+        i++;
+    }
+    return i;
+}
+
+int countElements(vector<int>& arr) 
+{
+    /*
+        https://leetcode.com/problems/counting-elements/
+    
+    Note: 
+        - Frequancy Matters, Sets do not keep track of frequancy 
+        - Do not use a Set 
+        - COUNT = USE A HASHMAP
+        - use a hash Man instead to keep track of frequancy 
+    */
+
+    map<int,int> myHash;
+    int answer = 0;
+    
+    // populate our hashmap
+    for(auto x: arr)
+        myHash[x]++;
+
+    for(auto x: myHash)
+    {
+        cout << "Key: " << x.first << " Value: " << x.second << endl;
+        int key = x.first;
+        if(myHash.find(key+1) != myHash.end()) // see if key +1 is in array
+        {
+            // if x+1 is in array we add x.second becuase 
+            // x.second tell us number of times that key was seen in the array
+            answer += x.second;
+        }    
+    
+    }
+    return answer;
 }
