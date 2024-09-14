@@ -760,19 +760,114 @@ struct ListNode {
  
 
 ListNode* middleNode(ListNode* head) 
+{
+    /*
+        https://leetcode.com/problems/middle-of-the-linked-list/
+    */
+    ListNode* slow = head;
+    ListNode* fast = head;
+    
+    // find the middle 
+    while(fast != nullptr  && fast->next != nullptr)
     {
-        /*
-            https://leetcode.com/problems/middle-of-the-linked-list/
-        */
-        ListNode* slow = head;
-        ListNode* fast = head;
-        
-        // find the middle 
-        while(fast != nullptr  && fast->next != nullptr)
-        {
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-        
-        return slow;
+        slow = slow->next;
+        fast = fast->next->next;
     }
+    
+    return slow;
+}
+
+bool hasCycle(ListNode *head) 
+{
+    /*
+        https://leetcode.com/problems/linked-list-cycle/
+        
+    */
+    ListNode* slow = head;
+    ListNode* fast = head;
+
+    // We have this boolean becuase we want to prevent slow and fast to comapre when loop initally looks at head
+    bool firstCase = false; 
+
+    int i = 0;
+    while(fast != nullptr && fast->next != nullptr)
+    {
+        cout << "Itteration " << i << endl;
+        cout << "Slow = " << slow->val << " Fast = " << fast->val << endl; 
+        if(slow == fast && firstCase)
+        {
+            cout << "Found Loop";
+            return true;
+        }
+        firstCase = true;   
+
+        slow = slow->next;
+        fast = fast->next->next;
+        i++;
+    }   
+    cout << "No Loop" << endl;
+
+    return false; 
+}
+
+ListNode* removeNthFromEnd(ListNode* head, int n) 
+{   
+    ListNode* slow = head;
+    ListNode* fast = head;
+    for(int i = 0; i < n; i++)
+        fast = fast->next;
+
+
+    // if fast == nullptr already this means that we want to delete first element 
+    if(fast == nullptr)
+    {
+        ListNode* tempHead = head;
+        head = head->next
+        delete tempHead;
+        return head;
+    }
+
+    ListNode* prev = head;
+    while(fast!= nullptr)
+    {
+        prev = slow;
+        slow = slow->next;
+        fast = fast->next;
+    }
+
+    prev->next = slow->next;
+    delete slow;
+    return head;
+}
+
+bool isValid(string s) 
+{
+    // https://leetcode.com/problems/valid-parentheses/
+
+    stack<char> stack;
+    unordered_map<char, char> matching {{'(',')'}, {'{','}'}, {'[',']'}};
+    
+    // ({})
+    for(auto c: s)
+    {
+        //This tell us if c is have ( or { or [ 
+
+        if(matching.find(c) != matching.end())
+        {   
+            stack.push(c); // c is either ( or { or [ 
+        }
+        else
+        {
+            if(stack.size() == 0)
+                return false;
+
+            char top = stack.top();
+            
+            if(matching[top] != c)
+                return false;
+
+            stack.pop();     
+        }
+    }
+    return stack.empty();
+}
