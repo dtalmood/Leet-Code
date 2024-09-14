@@ -904,3 +904,54 @@ string removeDuplicates(string s)
 
     return result;
 }
+
+bool backspaceCompare(string s, string t) 
+{
+    // https://leetcode.com/problems/backspace-string-compare/
+    stack<char> stackS;
+    stack<char> stackT;
+
+    for(auto x: s)
+    {
+        cout << x << endl;
+        if(x == '#' && !stackS.empty())
+        {
+            cout << "pop " << stackS.top() << endl; 
+            stackS.pop();
+        } 
+        else if(x != '#')
+        {
+            cout << "add " << x << endl;
+            stackS.push(x);
+        }
+    }
+
+    for(auto y: t)
+    {
+        cout << y << endl;
+        if(y == '#' && !stackT.empty())
+        {
+            cout << "pop " << stackT.top() << endl; 
+            stackT.pop();
+        } 
+        else if(y != '#')
+        {
+            cout << "add " << y << endl;
+            stackT.push(y);
+        }
+    }
+
+    // loop while stacks are not empt 
+    while(!stackS.empty() && !stackT.empty())
+    {
+        int topS = stackS.top();
+        int topT = stackT.top();
+        if(topS != topT)
+            return false;
+
+        stackS.pop();
+        stackT.pop();
+    }
+    return stackS.empty() && stackT.empty();
+}
+
