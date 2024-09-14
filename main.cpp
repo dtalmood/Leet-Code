@@ -746,3 +746,21 @@ int largestUniqueNumber(vector<int>& nums)
     
     return -1;
 }
+
+ListNode* middleNode(ListNode* head) 
+    {
+        /*
+            https://leetcode.com/problems/middle-of-the-linked-list/
+        */
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        // find the middle 
+        while(fast != nullptr  && fast->next != nullptr)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        return slow;
+    }
