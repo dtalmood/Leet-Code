@@ -871,3 +871,36 @@ bool isValid(string s)
     }
     return stack.empty();
 }
+
+string removeDuplicates(string s) 
+{
+    // https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/
+    stack<char> stack;
+    string answer = "";
+
+    for(auto c: s)
+    {
+        if(stack.empty()) // if empty returns true else false
+            stack.push(c);
+        else
+        {
+            char previous = stack.top();
+            if(previous == c)
+                stack.pop();
+            
+            else
+                stack.push(c);     
+        }
+    }   
+
+    string result = "";
+    while (!stack.empty())
+    {
+        // Doing this ensures we are adding elements from right to left 
+        result = stack.top() + result; 
+        stack.pop();
+    }
+    cout << result << endl;
+
+    return result;
+}
