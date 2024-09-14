@@ -672,3 +672,77 @@ int subarraySum(vector<int>& nums, int k)
       
       
     }
+
+vector<vector<int>> findWinners(vector<vector<int>>& matches)
+{
+    /*
+        https://leetcode.com/problems/find-players-with-zero-or-one-losses/description/
+        My Idea:
+            we have Map Key is Player Vale is Wins/losses
+            We iterate through winner first
+                Winner Key all = 1(does matter how many wins just that they won)
+            We iterate over lossers
+                Loss 1: Value = 0
+                Loss 2: Value = -1
+    */
+
+    map<int,int> myMap;
+    vector<vector<int>> result(2);
+
+    //itterate through winner
+    for(auto x: matches)
+        myMap[x[0]] = 1;
+    
+    for(auto x: matches)
+    {
+        // first Check, if the player that lost ever won a single match
+        if(myMap.find(x[1]) == myMap.end()) 
+            myMap[x[1]] = 0;
+
+        else
+            myMap[x[1]]--;
+        
+    }
+    for(auto x: myMap)
+    {
+        cout << "Key = " << x.first << ", Value = " << x.second << endl;
+    }
+        
+    for(auto x: myMap)
+    {
+        if(x.second == 1) // never lost a match
+        {
+            result[0].push_back(x.first);
+        }
+
+        else if(x.second == 0) // lost a single match
+        {
+            result[1].push_back(x.first);
+        }
+        
+    }
+    return result;
+}
+
+int largestUniqueNumber(vector<int>& nums)
+{
+    /*
+        https://leetcode.com/problems/largest-unique-number/
+
+        Set = No Frequency, Good for checking if something exists
+        Hash = Good for coutning frequancy 
+    */
+    map<int,int> myMap;
+
+    for(auto x: nums) 
+        myMap[x]++;
+        
+    for(auto it = myMap.rbegin(); it != myMap.rend(); it++)
+    {
+        if(it->second == 1)
+            return it->first;
+
+    }
+    
+    return -1;
+}
