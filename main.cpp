@@ -566,3 +566,109 @@ int countElements(vector<int>& arr)
     }
     return answer;
 }
+
+
+
+vector<int> intersection(vector<vector<int>>& nums) 
+{
+    /*
+        https://leetcode.com/problems/intersection-of-multiple-arrays/
+        - We need to keep track of frequancy
+        - Set = Good for checking if element exists  (no Frequency tracking )
+        - Hash = good for counting
+    */
+    map<int,int> myHash;
+    vector<int> result;
+
+    int size = nums.size();
+    
+    // populate our hashmap
+    for(auto x: nums)
+    {
+        for(auto y: x)
+        {
+            myHash[y]++;
+        }
+    }
+        
+    
+    //if value associated with key != size key is not in every set 
+    for(auto x: myHash)
+    {
+        if(x.second == size)
+            result.push_back(x.first);
+    }
+
+    return result;
+}
+
+
+bool areOccurrencesEqual(string s) 
+{
+    /*
+        https://leetcode.com/problems/check-if-all-characters-have-equal-number-of-occurrences/
+
+    Set:
+        1. Does not keep track of frequancy
+        2. Good for checking if element exists
+
+    Hash: 
+        1. Keep track of frequancy 
+
+    */
+    unordered_map<char,int> myMap;
+    
+    // Populate Map
+    for(auto x: s)
+        myMap[x]++;
+        
+    bool grabfirst = true;
+    int value = 0;
+    for(auto y: myMap)
+    {
+            cout << "Key: " << y.first << " Value: " << y.second << endl;
+            cout << "Value: " << value << endl;
+        if(grabfirst)
+        {
+            value = y.second;
+            cout << "New Value: " << value << endl;
+            grabfirst = false;
+        }
+        if(value != y.second)
+            return false;
+        
+        value = y.second;
+    }
+
+
+    return true;
+}
+
+
+// DO THIS AGAIN LATER
+
+int subarraySum(vector<int>& nums, int k) 
+    {
+        /*
+            https://leetcode.com/problems/subarray-sum-equals-k/
+            Set: Good for check if element exsits , no frequency check
+            HashMap: Keeping track / Counting
+            We are tokd to track numebr of subarays, perfect for sliding window 
+        */
+
+        unordered_map<int, int> counts;
+        counts[0] = 1;
+        int ans = 0, curr = 0;
+        
+        for (int num: nums) 
+        {
+            curr += num;
+            if(counts.find(curr-k) != counts.end())
+                ans += counts[curr - k];
+            counts[curr]++;
+        }
+        
+        return ans;
+      
+      
+    }
