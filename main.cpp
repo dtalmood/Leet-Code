@@ -984,28 +984,88 @@ int maxDepth(TreeNode* root)
 
 int target; 
 
-    bool hasPathSum(TreeNode* root, int targetSum)
-    {
-        /*
-            https://leetcode.com/problems/path-sum/
-            Pre: Work is done On Current node before going to next 
-            Post: We recursively call on the children first →  then perform logic on the current node
-            In: First We first recursively call the left child → Then perform logic
-        */
-        target = targetSum;
-        return dfs(root, 0);
+bool hasPathSum(TreeNode* root, int targetSum)
+{
+    /*
+        https://leetcode.com/problems/path-sum/
+        Pre: Work is done On Current node before going to next 
+        Post: We recursively call on the children first →  then perform logic on the current node
+        In: First We first recursively call the left child → Then perform logic
+    */
+    target = targetSum;
+    return dfs(root, 0);
+}
+bool dfs(TreeNode* node, int current)
+{
+    if (node == nullptr) {
+        return false;
     }
-    bool dfs(TreeNode* node, int current)
-    {
-        if (node == nullptr) {
-            return false;
-        }
-        // BASE CASE: If we reach a child 
-        if(node->left == nullptr && node->right == nullptr)
-            return (current + node->val == target);
-        
-        bool left = dfs(node->left, current + node->val);
-        bool right = dfs(node->right, current+node->val);
+    // BASE CASE: If we reach a child 
+    if(node->left == nullptr && node->right == nullptr)
+        return (current + node->val == target);
+    
+    bool left = dfs(node->left, current + node->val);
+    bool right = dfs(node->right, current+node->val);
 
-        return left || right;
+    return left || right;
+}
+
+ListNode* mergeTwoLists(ListNode* list1, ListNode* list2)
+{
+    ListNode* result = new ListNode(); // Dummy node
+    ListNode* head = result;           // Store head of the result list
+
+    // Traverse both lists
+    while (list1 != nullptr && list2 != nullptr) 
+    {
+        if (list1->val > list2->val)
+            {
+            result->next = new ListNode(list2->val);
+            list2 = list2->next;
+        } 
+        else 
+        {
+            result->next = new ListNode(list1->val);
+            list1 = list1->next;
+        }
+        result = result->next; // Move the result pointer forward
     }
+
+    // If one list is not empty, append the rest
+    if (list1 != nullptr) {
+        result->next = list1;
+    } else if (list2 != nullptr) {
+        result->next = list2;
+    }
+
+    // Return the merged list, skipping the dummy node
+    return head->next;
+}
+
+int maxProfit(vector<int>& prices) 
+{
+    // https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+
+    // Left = Buy 
+    // Right = Sell 
+    int left = 0;
+    int profit = 0;
+    int maxProfit = 0;
+
+    for(int right = 1; right < prices.size(); right++)
+    {
+        // Check if profitable 
+        if(prices[left] < prices[right]) // If when We sell is greater than when we bought
+        {
+            profit = prices[right]-prices[left];
+            maxProfit = max(maxProfit, profit);
+        }
+        else 
+        {
+            left++;
+        }
+        
+    }
+    return maxProfit;
+}
