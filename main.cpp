@@ -1107,3 +1107,19 @@ bool isPalindrome(string s)
 
     return true;
 }
+
+TreeNode* invertTree(TreeNode* root) 
+{
+    // BASE CASE:
+    if(root == nullptr)
+        return nullptr;
+
+    auto temp = root->left;
+    root->left = root->right;
+    root->right = temp;
+    invertTree(root->left);
+    invertTree(root->right);
+
+
+    return root;
+}
