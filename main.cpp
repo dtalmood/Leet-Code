@@ -1069,3 +1069,41 @@ int maxProfit(vector<int>& prices)
     }
     return maxProfit;
 }
+
+bool isPalindrome(string s) 
+{
+    int left = 0;
+    int right = s.size() - 1;
+
+    while (left < right) 
+    {
+        if(isalnum(s[left]))
+            cout << "is Alpha";
+        else
+            cout << "Not Alpha";
+
+        while (left < right && !isalnum(s[left])) 
+        {
+            cout << "LEFT++" << endl;
+            left++;
+        }
+            
+        // Move right index to previous alphanumeric character
+        while (left < right && !isalnum(s[right])) 
+        {
+            cout << "RIGHT--" << endl;
+            right--;
+        }
+        // Compare characters, ignoring case
+        if (tolower(s[left]) != tolower(s[right]))
+        {
+            cout << s[left] << " and " << s[right] << endl;
+            return false;
+        } 
+            
+        left++;
+        right--;
+    }
+
+    return true;
+}
