@@ -955,3 +955,57 @@ bool backspaceCompare(string s, string t)
     return stackS.empty() && stackT.empty();
 }
 
+
+//Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+ 
+
+int maxDepth(TreeNode* root)
+{
+    // https://leetcode.com/problems/maximum-depth-of-binary-tree/
+    
+    // BASE CASE: We traverse to far and are looking at nothing 
+    if(root == nullptr)
+    {
+        return 0; 
+    }
+    int left = maxDepth(root->left);
+    int right = maxDepth(root->right);
+
+    return max(left,right)+1;
+}
+
+int target; 
+
+    bool hasPathSum(TreeNode* root, int targetSum)
+    {
+        /*
+            https://leetcode.com/problems/path-sum/
+            Pre: Work is done On Current node before going to next 
+            Post: We recursively call on the children first →  then perform logic on the current node
+            In: First We first recursively call the left child → Then perform logic
+        */
+        target = targetSum;
+        return dfs(root, 0);
+    }
+    bool dfs(TreeNode* node, int current)
+    {
+        if (node == nullptr) {
+            return false;
+        }
+        // BASE CASE: If we reach a child 
+        if(node->left == nullptr && node->right == nullptr)
+            return (current + node->val == target);
+        
+        bool left = dfs(node->left, current + node->val);
+        bool right = dfs(node->right, current+node->val);
+
+        return left || right;
+    }
