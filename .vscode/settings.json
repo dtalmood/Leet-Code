@@ -12,6 +12,7 @@
         "set": "cpp",
         "unordered_set": "cpp",
         "xtree": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "map": "cpp"
     }
 }

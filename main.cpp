@@ -1072,6 +1072,7 @@ int maxProfit(vector<int>& prices)
 
 bool isPalindrome(string s) 
 {
+    // https://leetcode.com/problems/valid-palindrome/description/
     int left = 0;
     int right = s.size() - 1;
 
@@ -1110,6 +1111,7 @@ bool isPalindrome(string s)
 
 TreeNode* invertTree(TreeNode* root) 
 {
+    // https://leetcode.com/problems/invert-binary-tree/
     // BASE CASE:
     if(root == nullptr)
         return nullptr;
@@ -1122,4 +1124,52 @@ TreeNode* invertTree(TreeNode* root)
 
 
     return root;
+}
+
+bool isAnagram(string s, string t) 
+{
+    // https://leetcode.com/problems/valid-anagram/
+    map<char,int> myMapS;
+    map<char,int> myMapT;
+
+    for(auto x: s)
+        myMapS[x]++;
+    
+    for(auto y: t)
+        myMapT[y]++;
+    
+    if(myMapS == myMapT)
+        return true;
+    
+    return false;   
+}
+
+
+
+int binarySearch(vector<int>& nums, int target) 
+{
+    // https://leetcode.com/problems/binary-search/submissions/1391514893/
+    
+    int left = 0;
+    int right = nums.size()-1;
+    cout << "right " << right << endl;
+    while(left <= right)
+    {
+        int middle = left + (right - left) / 2;
+        cout << middle << endl;
+        
+        if(nums[middle] == target) // we found target
+            return middle;
+        
+        if(nums[middle] < target)
+        {
+            left = middle+1;
+        }
+        if(nums[middle] > target)
+        {
+            right = middle-1;
+        }
+    }
+    
+    return -1;
 }
