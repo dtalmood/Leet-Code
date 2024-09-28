@@ -6,6 +6,7 @@ int removeDuplicates(vector<int>& nums);
 #include <map>
 #include <unordered_map>
 #include <vector>
+#include <set>
 using namespace std;
 
 int main()
@@ -253,4 +254,147 @@ vector<int> twoSum(vector<int>& nums, int target)
     }
 
     return result;
+}
+
+bool isValidSudoku(vector<vector<char>>& board) 
+{
+    // https://leetcode.com/problems/valid-sudoku/
+    
+    // Validate rows 
+    set<char> mySet;
+    for(int row = 0; row < 9; row++)
+    {
+        mySet.clear(); // clear set at the beginning of each row
+        for(int col = 0 ; col < 9; col++)
+        {
+            char current = board[row][col];
+            if(current != '.') // Ensure we are not looking at empty location 
+            {
+                if(mySet.find(current) == mySet.end()) // Check for duplicates
+                    mySet.insert(current);
+                else
+                    return false;
+            }
+        }
+    }
+
+    // Validate columns (corrected)
+    for(int col = 0; col < 9; col++)
+    {
+        mySet.clear(); // clear set at the beginning of each column
+        for(int row = 0 ; row < 9; row++)
+        {
+            char current = board[row][col]; // This is the correct order for column validation
+            if(current != '.')
+            {
+                if(mySet.find(current) == mySet.end()) 
+                    mySet.insert(current);      
+                else
+                    return false;
+            }
+        }
+    }
+
+    // Validate 3x3 sub-boxes
+    vector<vector<int>> startPosition = {
+        {0,0},{0,3},{0,6},
+        {3,0},{3,3},{3,6},
+        {6,0},{6,3},{6,6}
+    };
+    for(const auto box : startPosition)
+    {
+        int x = box[0];
+        int y = box[1];
+
+        mySet.clear(); // clear set at the beginning of each 3x3 sub-box
+        for(int row = 0; row < 3; row++)
+        {
+            for(int col = 0; col < 3; col++)
+            {
+                char current = board[x+row][y+col]; // Access 3x3 grid starting from x, y
+                if(current != '.')
+                {
+                    if(mySet.find(current) == mySet.end()) 
+                        mySet.insert(current);      
+                    else
+                        return false;
+                }                    
+            }
+        }
+    }
+
+    return true; // If no issues found, the board is valid
+}
+
+void reverseString(vector<char>& myArr) 
+{
+    // https://leetcode.com/problems/reverse-string/
+    int left = 0; 
+    int right = myArr.size()-1;
+    if(left == right)
+        return;
+    
+    while(left < right)
+    {
+        char temp = myArr[right];
+        myArr[right] = myArr[left];
+        myArr[left]=temp;
+        left++;
+        right--; 
+    }
+
+}
+
+int reverse(int x) 
+{
+    // https://leetcode.com/problems/reverse-integer/
+    int answer = 0;
+
+    while(x != 0)
+    {
+        int lastElem = x % 10;  // get the last digit
+
+        /*
+            Check Overflow: 
+                - int MAX = 2,147,483,647
+                - dividiing INT_MAX / 10 = 214,748,364 
+                - 214,748,364 is the largest value that we can safley multiply by 10
+                - 214748364 * 10 = 2,147,483,640
+                - Notice the last elemet are not equal      
+                - 2,147,483,647 - 2,147,483,640 = 7
+                - as long as the last value is no greater than 7 its valid 
+                
+        */
+
+        if (answer > INT_MAX / 10 || (answer == INT_MAX / 10 && lastElem > 7)) {
+            return 0;  // Overflow detected
+        }
+        if (answer < INT_MIN / 10 || (answer == INT_MIN / 10 && lastElem < -8)) {
+            return 0;  // Underflow detected
+        }
+
+        answer = answer * 10 + lastElem;  // Reverse the number
+        x /= 10;  // Remove the last digit from x
+    }
+
+    return answer;
+}
+
+int firstUniqChar(string s) 
+{
+    // https://leetcode.com/problems/first-unique-character-in-a-string/description/
+    map<char,int> myMap;
+
+    for(auto x: s)
+        myMap[x]++;
+
+    for(int i = 0;i <= s.length()-1; i++)
+    {
+        char current = s[i];
+        auto loc = myMap.find(current);
+        if(loc->second == 1)
+            return i;
+    }
+
+    return -1;
 }
