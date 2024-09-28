@@ -398,3 +398,53 @@ int firstUniqChar(string s)
 
     return -1;
 }
+
+bool isAnagram(string s, string t) 
+{
+    // https://leetcode.com/problems/valid-anagram/
+    
+    // we need to keep track of frequency so use a hashmap
+    map<char, int> myMap;
+    
+    
+    for(auto x : s) // populate our hashmap
+        myMap[x]++;
+
+    for(auto y: t)
+    {
+        myMap[y]--;
+        if(myMap[y] == 0) // if after decrment value = 0 then erase key
+            myMap.erase(y);
+    }
+
+    return !myMap.size(); // if size == 0 this means matching 
+}
+
+bool isPalindrome(string str) 
+{
+    // https://leetcode.com/problems/valid-palindrome/
+    int right = str.length()-1;
+    int left = 0;
+
+    while(left < right)
+    {
+        cout << "str[left] = " << str[left] << " , str[right] = " << str[right] << endl;
+        // ensure both are alphabetical
+        if(isalnum(str[left]) && isalnum(str[right]))  
+        {
+            
+            if(tolower(str[left]) != tolower(str[right]))
+                return false;
+            left++;
+            right--;
+        }
+        else if(!isalnum(str[left]))
+            left++;
+        
+        else
+            right--;
+        
+    }
+    return true;
+}
+
