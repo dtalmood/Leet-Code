@@ -14,9 +14,6 @@ int main()
     return 0;
 }
 
-
-
-
 int removeDuplicates(vector<int>& nums) 
 {
     // https://leetcode.com/problems/remove-duplicates-from-sorted-array/?envType=study-plan-v2&envId=top-interview-150
@@ -448,3 +445,126 @@ bool isPalindrome(string str)
     return true;
 }
 
+int myAtoi(string s) 
+{
+    // https://leetcode.com/problems/string-to-integer-atoi/
+    int answer = 0;
+
+
+    // Remove leading white spaces 
+    int index = 0;
+    while(isspace(s[index]))
+        index++;
+    
+    bool negative = false;
+    
+    // determine if + or - 
+    
+    if(s[index] == '-')
+    {
+        negative = true;
+        index++;
+    }
+    else if(s[index] == '+')
+        index++;
+    
+    // keep iterating until no digit is found
+    while(isdigit(s[index]))
+    {
+        char x = s[index];
+        int newval = x - '0';
+        
+        if (answer > INT_MAX / 10 || (answer == INT_MAX / 10 && newval > 7)) 
+        {
+            if(negative)
+                return INT_MIN;
+            return INT_MAX;  // Overflow detected
+        }
+            
+            
+        if (answer < INT_MIN / 10 || (answer == INT_MIN / 10 && newval < -8)) 
+            return INT_MIN;  // Underflow detected
+    
+        answer = answer * 10 + newval;
+        index++;
+    }
+
+    if(negative)
+        return answer * -1;
+    
+    return answer;
+}
+
+ int strStr(string haystack, string needle) 
+{
+    // https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
+    int needleSize = needle.size()-1; 
+    int needlePointer = 0; 
+
+    for(int i = 0; i <= haystack.size()-1; i++)
+    {
+        int index = i;
+        while(needlePointer <= needleSize)
+        {
+            cout << "haystack[index] = " << haystack[index] << " , needle[needlePointer] = " << needle[needlePointer] << endl;
+            if(haystack[index] == needle[needlePointer])
+            {
+                needlePointer++;
+                index++;
+            }
+                
+            else
+                break;
+        }
+        
+        if(needlePointer > needleSize)  
+            return i;
+        
+
+        needlePointer = 0;
+    }    
+
+    return -1;
+}
+
+string longestCommonPrefix(vector<string>& strs) 
+{
+    // https://leetcode.com/problems/longest-common-prefix/
+    int strSize = strs.size() - 1;
+    string answer = "";
+    
+    if(strs.size() == 0) 
+        return "";
+
+    int minLength = INT_MAX;
+    
+    for(const auto& str : strs) 
+        minLength = min(minLength, (int)str.length());
+    
+
+    // grab first char of first element in strs
+
+    for (int i = 0; i < minLength; i++)
+    {
+        cout << "itteration " << i << endl;
+        char current = strs[0][i];
+
+        for(int j = 0; j <= strSize; j++)
+        {
+            cout << "strs["<< j<<"][" << i<< "] =" << strs[j][i] << endl;
+            if(strs[j][i] != current)
+            {
+                cout << "fail" << endl;
+                return answer;
+            }
+                
+        
+        }
+
+        answer += current;
+        cout << "answer = " << answer << endl; 
+
+    }
+
+    return answer;
+}
